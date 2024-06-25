@@ -74,5 +74,20 @@ module.exports = {
             console.log(err)
             res.status(500).send(err);
         }
+    },
+
+    profile: async (req, res) => {
+        try {
+            const user = await UserModel.findById(req.params.id);
+            if (!user) {
+                return res.status(404).json({
+                    message: 'user_not_found'
+                });
+            }
+            res.json(user);
+        } catch (err) {
+            console.log(err)
+            res.status(500).send(err);
+        }
     }
 }
