@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CommentSchema = new Schema({
+const commentSchema = new Schema({
     body: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     post: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
     votes: { type: Number, default: 0 },
     parent_comment: { type: Schema.Types.ObjectId, ref: 'Comment' }
 }, {
@@ -20,5 +18,5 @@ const CommentSchema = new Schema({
     read: 'nearest'
 });
 
-const Model = mongoose.model('Comment', CommentSchema);
+const Model = mongoose.model('Comment', commentSchema);
 module.exports = Model;

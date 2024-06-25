@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const postSchema = new Schema({
     title: { type: String, required: true },
     body: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    subreddit: { type: Schema.Types.ObjectId, ref: 'Subreddit', required: true },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
+    topic: { type: Schema.Types.ObjectId, ref: 'Topic', required: true },
     votes: { type: Number, default: 0 },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
 }, {
@@ -21,5 +19,5 @@ const PostSchema = new Schema({
     read: 'nearest'
 });
 
-const Model = mongoose.model('Post', PostSchema);
+const Model = mongoose.model('Post', postSchema);
 module.exports = Model;

@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const VoteSchema = new Schema({
+const voteSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     post: { type: Schema.Types.ObjectId, ref: 'Post' },
     comment: { type: Schema.Types.ObjectId, ref: 'Comment' },
-    vote_type: { type: String, enum: ['upvote', 'downvote'], required: true },
-    created_at: { type: Date, default: Date.now }
+    vote_type: { type: String, enum: ['upvote', 'downvote'], required: true }
 }, {
     collection: 'votes',
     timestamps: true,
@@ -18,5 +17,5 @@ const VoteSchema = new Schema({
     read: 'nearest'
 });
 
-const Model = mongoose.model('Vote', VoteSchema);
+const Model = mongoose.model('Vote', voteSchema);
 module.exports = Model;
