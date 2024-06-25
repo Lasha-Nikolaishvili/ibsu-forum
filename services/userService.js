@@ -5,25 +5,32 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     register: async (req, res) => {
         try {
-            if (!req.body.username || !req.body.password) {
+            const { username, email, password, bio, avatar_url, permits } = req.body;
+            if (!username || !password || !email) {
                 return res.status(400).json({
                     message: 'required_fields_are_missing'
                 });
             }
+
             const exists = await UserModel.findOne({
-                username: req.body.username
+                username: username
             });
             if (exists) {
                 return res.status(409).json({
                     message: 'user_already_exists'
                 });
             }
-            const hashPassword = bcrypt.hashSync(req.body.password, 10);
+            const hashPassword = bcrypt.hashSync(password, 10);
+
+
 
             const savedUser = await new UserModel({
-                username: req.body.username,
+                username: username,
+                email: email,
                 password: hashPassword,
-                permits: req.body.permits
+                bio,
+                avatar_url,
+                permits
             }).save();
 
             const token = jwt.sign({
@@ -41,15 +48,16 @@ module.exports = {
     },
     login: async (req, res) => {
         try {
+            const { username, password } = req.body;
             const user = await UserModel.findOne({
-                username: req.body.username
+                username: username
             });
             if (!user) {
                 return res.status(404).json({
                     message: 'user_not_found'
                 });
             }
-            if (bcrypt.compareSync(req.body.password, user.password)) {
+            if (bcrypt.compareSync(password, user.password)) {
                 const token = jwt.sign({
                     id: user._id,
                     username: user.username,
