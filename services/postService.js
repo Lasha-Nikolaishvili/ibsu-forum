@@ -97,8 +97,7 @@ module.exports = {
                 return res.status(403).json({ message: 'forbidden' });
             }
 
-            await post.remove();
-
+            await PostModel.deleteOne({ _id: post.id });
             res.json({ message: 'post_deleted' });
 
         } catch (err) {

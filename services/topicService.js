@@ -83,8 +83,7 @@ module.exports = {
                 return res.status(404).json({ message: 'topic_not_found' });
             }
 
-            await topic.remove();
-
+            await TopicModel.deleteOne({ _id: topic.id });
             res.json({ message: 'topic_deleted' });
 
         } catch (err) {

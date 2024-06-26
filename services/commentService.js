@@ -99,10 +99,8 @@ module.exports = {
                 return res.status(403).json({ message: 'forbidden' });
             }
 
-            await comment.remove();
-
+            await CommentModel.deleteOne({ _id: comment.id });
             res.json({ message: 'comment_deleted' });
-
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: 'internal_server_error' });
