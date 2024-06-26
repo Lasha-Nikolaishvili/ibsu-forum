@@ -83,6 +83,10 @@ module.exports = {
                 return res.status(404).json({ message: 'topic_not_found' });
             }
 
+            if (!topic.moderators.includes(req.user.id)) {
+                return res.status(403).json({ message: 'not_authorized' });
+            }
+
             await TopicModel.deleteOne({ _id: topic.id });
             res.json({ message: 'topic_deleted' });
 
