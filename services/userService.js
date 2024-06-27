@@ -37,7 +37,7 @@ module.exports = {
                 id: savedUser._id,
                 username: savedUser.username,
                 permits: savedUser.permits
-            }, process.env.SECRET_KEY);
+            }, process.env.SECRET_KEY, { expiresIn: '1h' });
 
             res.json({ token });
 
@@ -62,7 +62,7 @@ module.exports = {
                     id: user._id,
                     username: user.username,
                     permits: user.permits
-                }, process.env.SECRET_KEY);
+                }, process.env.SECRET_KEY, { expiresIn: '1h' });
     
                 res.json({ token });
             } else {
