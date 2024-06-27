@@ -14,6 +14,7 @@ module.exports = {
                 return res.status(409).json({ message: 'topic_already_exists' });
             }
 
+
             const newTopic = new TopicModel({
                 name,
                 description,
@@ -60,6 +61,10 @@ module.exports = {
             const topic = await TopicModel.findById(req.params.id);
             if (!topic) {
                 return res.status(404).json({ message: 'topic_not_found' });
+            }
+
+            if (!topic.moderators.includes(req.user.id)) {
+                return res.status(403).json({ message: 'not_authorized' });
             }
 
             topic.name = name || topic.name;
