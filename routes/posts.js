@@ -3,6 +3,8 @@ const router = express.Router();
 const postService = require('../services/postService');
 const ApiSecurity = require('../middleware/apiSecurity');
 
+router.get('/search', postService.searchPosts);
+
 router.get('/', postService.getPosts);
 router.get('/:id', postService.getPost);
 router.post('/', ApiSecurity.requireLogin, postService.createPost);

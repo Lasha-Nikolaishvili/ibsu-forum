@@ -104,5 +104,43 @@ module.exports = {
             console.error(err);
             res.status(500).json({ message: 'internal_server_error' });
         }
+    },
+
+    searchPosts: async (req, res) => {
+        try {
+            const { query, page = 1, limit = 10 } = req.query;
+            const skip = (page - 1) * Number(limit);
+            const regexQuery = { $regex: query, $options: 'i' };
+
+            const posts = await PostModel.find({
+                $or: [
+                    { title: regexQuery },
+                    { body: regexQuery }
+                ]
+            })
+            .populate('author', 'username')
+            .populate('topic', 'name')
+            .skip(skip)
+            .limit(Number(limit));
+
+            const totalPosts = await PostModel.countDocuments({
+                $or: [
+                    { title: regexQuery },
+                    { body: regexQuery }
+                ]
+            });
+
+            res.json({
+                total: totalPosts,
+                page: Number(page),
+                limit: Number(limit),
+                posts
+            });
+
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'internal_server_error' });
+        }
     }
+
 };
