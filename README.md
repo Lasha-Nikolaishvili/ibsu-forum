@@ -1,7 +1,3 @@
-Certainly! Below is a detailed `README.md` file for your forum-like application:
-
----
-
 # IBSU Forum
 
 IBSU Forum is a Reddit-like web application built using Node.js, Express, and MongoDB. It allows users to create topics, posts, and comments, and to vote on posts and comments.
